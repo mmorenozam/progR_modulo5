@@ -22,4 +22,11 @@ format:
       - pointer
 ---
 
-# Definiciones básicas
+# Introducción
+
+## Generalidades
+
+::: incremental
+
+
+:::
