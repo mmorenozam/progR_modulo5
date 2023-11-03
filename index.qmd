@@ -1,0 +1,25 @@
+---
+title: "Módulo 5: Introducción a la creación de reportes en R"
+title-slide-attributes:
+  data-background-image: images/logo.jpeg
+  data-background-size: contain
+  data-background-opacity: "0.2"
+author: 
+  - name: Mauricio Moreno, PhD
+logo: images/logo.jpeg
+format: 
+  revealjs:
+    css: styles.css
+    slide-number: true
+    width: 1366
+    preview-links: auto
+    touch: true
+    chalkboard:
+      theme: whiteboard
+      boardmarker-width: 4
+      buttons: false
+    revealjs-plugins:
+      - pointer
+---
+
+# Definiciones básicas
