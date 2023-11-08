@@ -8,7 +8,7 @@
 <link href="site_libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.280">
+  <meta name="generator" content="quarto-1.3.450">
 
   <meta name="author" content="Mauricio Moreno, PhD">
   <title>modulo5 - Módulo 5: Introducción a la creación de reportes en R</title>
@@ -29,8 +29,73 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="site_libs/revealjs/dist/theme/quarto.css" id="theme">
+  <link rel="stylesheet" href="site_libs/revealjs/dist/theme/quarto.css">
   <link rel="stylesheet" href="styles.css">
   <link href="site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
@@ -323,6 +388,8 @@
       margin-right: 0; 
     }
   </style>
+  <link href="site_libs/tabwid-1.1.3/tabwid.css" rel="stylesheet">
+  <script src="site_libs/tabwid-1.1.3/tabwid.js"></script>
 </head>
 <body class="quarto-light">
   <div class="reveal">
@@ -341,15 +408,806 @@ Mauricio Moreno, PhD
 
 </section>
 <section>
-<section id="introducción" class="title-slide slide level1 center">
-<h1>Introducción</h1>
+<section id="generalidades" class="title-slide slide level1 center">
+<h1>Generalidades</h1>
 
 </section>
-<section id="generalidades" class="slide level2">
-<h2>Generalidades</h2>
+<section id="introducción" class="slide level2 smaller">
+<h2>Introducción</h2>
 <div>
-
+<ul>
+<li class="fragment"><p>R tiene la capacidad de crear reportes en distintos formatos.</p></li>
+<li class="fragment"><p>Esta funcionalidad en el pasado era gracias al paquete <code>rmarkdown</code> (creado por los mismos desarrolladores de RStudio), que es una adaptación del lenguaje Markdown. Sin embargo, <code>rmarkdown</code> posee ciertas desventajas:</p>
+<ul>
+<li class="fragment"><p>Es exclusivo de lenguaje R</p></li>
+<li class="fragment"><p>Necesita de otros paquetes para crear distintos tipos de documentos (<code>blogdown</code> para sitios web, <code>bookdown</code> para libros o <code>revealjs</code> para crear presentaciones).</p></li>
+<li class="fragment"><p>El hacer uso de extensiones es complejo.</p></li>
+</ul></li>
+<li class="fragment"><p>En 2022, el grupo de desarrolladores de RStudio (Posit), lanzó Quarto como la siguiente generación de <code>rmarkdown</code>. Entre sus ventajas cuenta:</p>
+<ul>
+<li class="fragment"><p>Es multi-lenguaje. Al momento tiene compatibilidad con Python, Julia, Observable y por supuesto R.</p></li>
+<li class="fragment"><p>Opciones de renderizado centralizadas (no se requiere ya de distintos paquetes para crear sitios web, libros o presentaciones).</p></li>
+<li class="fragment"><p>Las extensiones son fácilmente instaladas.</p></li>
+</ul></li>
+</ul>
 </div>
+</section>
+<section id="introducción-1" class="slide level2 smaller" data-visibility="uncounted">
+<h2>Introducción</h2>
+<div>
+<ul>
+<li class="fragment"><p>Como ya hemos venido mencionando a lo largo del curso, a través de Quarto podemos producir documentos en formatos, pero debemos tener en cuenta algunos requerimientos:</p>
+<ul>
+<li class="fragment"><p>html</p></li>
+<li class="fragment"><p>pdf (necesitamos instalar una versión de <span class="math inline">\(\LaTeX\)</span>)</p></li>
+<li class="fragment"><p>Word (necesitamos contar con Microsoft Office o LibreOffice)</p></li>
+<li class="fragment"><p>Power Point (necesitamos contar con Microsoft Office o LibreOffice)</p></li>
+<li class="fragment"><p>Shiny apps (necesitamos instalar el paquete <code>shiny</code> de R)</p></li>
+</ul></li>
+<li class="fragment"><p>Otra funcionalidad interesante de Quarto (y <code>rmarkdown</code> también), es el poder renderizar ecuaciones:</p>
+<ul>
+<li class="fragment">Cuando creamos documentos con fórmulas matemáticas, Quarto usa un módulo llamado “Latexmk” que las renderiza de manera similar como lo haría <span class="math inline">\(\LaTeX\)</span>.</li>
+</ul></li>
+</ul>
+</div>
+</section>
+<section id="qué-es-latex" class="slide level2 smaller">
+<h2>¿Qué es <span class="math inline">\(\LaTeX\)</span>?</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<div>
+<ul>
+<li class="fragment"><p><span class="math inline">\(\TeX\)</span> es un sistema de edición de fórmulas creado por el matemático <a href="https://en.wikipedia.org/wiki/Donald_Knuth" target="blank_">Donald Knuth</a> en 1978.</p></li>
+<li class="fragment"><p>Posteriormente en 1984, el matemático <a href="https://en.wikipedia.org/wiki/Leslie_Lamport" target="blank_">Leslie Lamport</a> creó <span class="math inline">\(\LaTeX\)</span>, que es un software de edición que se basa en <span class="math inline">\(\TeX\)</span>.</p></li>
+<li class="fragment"><p>Tanto <span class="math inline">\(\TeX\)</span> como <span class="math inline">\(\LaTeX\)</span>, nacieron de la necesidad de contar con un editor de texto capaz de renderizar ecuaciones matemáticas.</p></li>
+<li class="fragment"><p>Bastante popular en ingenierías, física y matemáticas.</p></li>
+<li class="fragment"><p>Independientemente de que creemos documentos en Word o pdf con fórmulas, estas necesitan estar en lenguaje <span class="math inline">\(\TeX\)</span> para su renderización.</p></li>
+<li class="fragment"><p>Si creamos documentos en pdf, <strong>es indispensable</strong> instalar alguna versión de <span class="math inline">\(\LaTeX\)</span>, como ya veremos en breve.</p></li>
+</ul>
+</div>
+</div><div class="column" style="width:40%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/equation.png"></p>
+</figure>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="básicos-de-quarto" class="title-slide slide level1 center">
+<h1>Básicos de Quarto</h1>
+
+</section>
+<section id="instalación-de-quarto" class="slide level2 smaller">
+<h2>Instalación de Quarto</h2>
+<div>
+<ul>
+<li class="fragment"><p>Ingresa al siguiente sitio y <a href="https://quarto.org/docs/get-started/" target="blank_">descarga Quarto</a> acorde a tu Sistema Operativo.</p></li>
+<li class="fragment"><p>Sigue las intrucciones sin cambiar los defaults e instala Quarto.</p></li>
+<li class="fragment"><p>Para el correcto funcionamiento de Quarto, es necesario que cuentes con el paquete <code>knitr</code>.</p></li>
+<li class="fragment"><p>En el caso de usar visualizaciones basadas en <code>plotly</code> (<code>heatmaply</code> por ejemplo), es necesario instalar una versión anterior de <code>knitr</code>. A la fecha de crear estas diapositivas, 03.11.2023, la última versión disponible de <code>knitr</code> produce errores al intentar renderizar documentos que contengan objetos creados con <code>plotly</code> o sus dependencias.</p></li>
+<li class="fragment"><p>Para instalar una versión anterior (de cualquier paquete), podemos usar la ayuda del paquete <code>devtools</code>, de la siguiente manera:</p></li>
+</ul>
+</div>
+<div class="fragment">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">install.packages</span>(<span class="st">"devtools"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(devtools)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">install_version</span>(<span class="st">"knitr"</span>, <span class="at">version =</span> <span class="st">"1.42"</span>, <span class="at">repos =</span> <span class="st">"http://cran.us.r-project.org"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section id="instalación-de-latex" class="slide level2">
+<h2>Instalación de <span class="math inline">\(\LaTeX\)</span></h2>
+<div>
+<ul>
+<li class="fragment"><p>Existen varias opciones para contar con <span class="math inline">\(\LaTeX\)</span> (MiKTeX, TeX Live por ejemplo). Sin embargo, los autores de Quarto recomiendan usar TinyTeX.</p></li>
+<li class="fragment"><p>Para instalar TinyTex, lo más simple es hacerlo mediante el terminal de R:</p></li>
+</ul>
+</div>
+<div class="fragment">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>quarto install tinytex</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="fragment">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/tiny_2.png"></p>
+</figure>
+</div>
+</div>
+</section>
+<section id="preparando-nuestro-ambiente-de-trabajo" class="slide level2 smaller">
+<h2>Preparando nuestro ambiente de trabajo</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/paso_1.png"></p>
+</figure>
+</div>
+</div><div class="column" style="width:60%;">
+<ol type="1">
+<li><p>Vamos a “File” (Archivo, dependiendo de si instalaste R con GUI y mensajes traducidos).</p></li>
+<li><p>Escogemos la opción “New Project…” (Proyecto Nuevo…)</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="preparando-nuestro-ambiente-de-trabajo-1" class="slide level2 smaller" data-visibility="uncounted">
+<h2>Preparando nuestro ambiente de trabajo</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/paso_4.png"></p>
+</figure>
+</div>
+</div><div class="column" style="width:60%;">
+<ol type="1">
+<li><p>Vamos a “File” (Archivo, dependiendo de si instalaste R con GUI y mensajes traducidos).</p></li>
+<li><p>Escogemos la opción “New Project…” (Proyecto Nuevo…).</p></li>
+<li><p>RStudio nos dará a escoger entre distintos tipos de proyectos, escogeremos “Quarto Project” (Proyecto de Quarto).</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="preparando-nuestro-ambiente-de-trabajo-2" class="slide level2 smaller" data-visibility="uncounted">
+<h2>Preparando nuestro ambiente de trabajo</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/paso_2.png"></p>
+</figure>
+</div>
+</div><div class="column" style="width:60%;">
+<ol type="1">
+<li><p>Vamos a “File” (Archivo, dependiendo de si instalaste R con GUI y mensajes traducidos).</p></li>
+<li><p>Escogemos la opción “New Project…” (Proyecto Nuevo…).</p></li>
+<li><p>RStudio nos dará a escoger entre distintos tipos de proyectos, escogeremos “Quarto Project” (Proyecto de Quarto).</p></li>
+<li><p>Luego, escogeremos de entre tres opciones la llamada “New Directory” (Nuevo Directorio).</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="preparando-nuestro-ambiente-de-trabajo-3" class="slide level2 smaller" data-visibility="uncounted">
+<h2>Preparando nuestro ambiente de trabajo</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/paso_3.png"></p>
+</figure>
+</div>
+</div><div class="column" style="width:60%;">
+<ol type="1">
+<li><p>Vamos a “File” (Archivo, dependiendo de si instalaste R con GUI y mensajes traducidos).</p></li>
+<li><p>Escogemos la opción “New Project…” (Proyecto Nuevo…).</p></li>
+<li><p>RStudio nos dará a escoger entre distintos tipos de proyectos, escogeremos “Quarto Project” (Proyecto de Quarto).</p></li>
+<li><p>Luego, escogeremos de entre tres opciones la llamada “New Directory” (Nuevo Directorio).</p></li>
+<li><p>En esta ventana, RStudio nos preguntará el nombre del nuevo directorio que queremos crear para nuestro proyecto y la ubicación del mismo. Dejamos los otros campos tal cual están en el visor. Damos entonces el click en “Create Project” (Crear Proyecto).</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="preparando-nuestro-ambiente-de-trabajo-4" class="slide level2 smaller" data-visibility="uncounted">
+<h2>Preparando nuestro ambiente de trabajo</h2>
+<p>Una vez que hallamos seguido los pasos, RStudio habrá creado un script de template además de otros archivos dentro del directorio de trabajo que hayamos especificado.</p>
+
+<img data-src="images/paso_5.png" class="r-stretch quarto-figure-center"></section>
+<section id="todo-funciona-bien" class="slide level2 smaller">
+<h2>¿Todo funciona bien?</h2>
+<div>
+<ul>
+<li class="fragment"><p>En este punto, comprobaremos si todos los pasos que hemos seguido en la instalación fueron correctos.</p></li>
+<li class="fragment"><p>Basta con presionar el botón “Render” en nuestro script. Esta acción le ordena a RStudio a renderizar el template que obtuvimos después de la creación del proyecto.</p></li>
+<li class="fragment"><p>Como resultado, RStudio abrirá una ventana del navegador de internet predeterminado de tu ordenador para mostrar el documento renderizado (por default, Quarto genera documentos de extensión html).</p></li>
+</ul>
+</div>
+<div class="fragment">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/paso_6.png"></p>
+</figure>
+</div>
+</div>
+</section>
+<section id="proyectos-en-rstudio" class="slide level2 smaller">
+<h2>Proyectos en RStudio</h2>
+<div>
+<ul>
+<li class="fragment"><p>Como habrás notado, son varias las opciones que podemos elegir al crear un proyecto (no está limitado únicamente a Quarto).</p></li>
+<li class="fragment"><p>Esta manera de trabajar en proyectos por separado trae muchas ventajas, entre ellas:</p>
+<ul>
+<li class="fragment"><p>Ya no es necesario el usar la función <code>setwd</code> para especificar un directorio de trabajo. Esto es de gran beneficio ya que no necesitamos cambiarlo en caso de que movamos el directorio del proyecto hacia una ubicación distinta.</p></li>
+<li class="fragment"><p>Nos permite organizar de mejor manera nuestros trabajos en el ordenador, manteniendo únicamente los scripts de cada uno de ellos en lugares específicos y de fácil acceso.</p></li>
+<li class="fragment"><p>Quizá la razón más atractiva, es el poder conectar nuestros proyectos con repositorios digitales para desarrolladores. El más usado (y de libre acceso es <a href="https://github.com/" target="blank_">GitHub</a>).</p></li>
+</ul></li>
+<li class="fragment"><p>Esta última es de gran utilidad en ambientes de trabajo con equipos de varios colaboradores. Además, es parte fundamental en el concepto de Open Science, donde investigadores y académicos pueden poner a disposición del público sus códigos y tablas de datos para el uso de sus pares.</p></li>
+</ul>
+</div>
+</section>
+<section id="partes-básicas-de-un-documento-de-quarto" class="slide level2 smaller">
+<h2>Partes básicas de un documento de Quarto</h2>
+<div>
+<ul>
+<li class="fragment"><p>Nota que la extensión del documento de Quarto es “qmd”.</p></li>
+<li class="fragment"><p>En el código básico generamos al crear el proyecto, podemos reconocer fácilmente tres secciones de código:</p>
+<ul>
+<li class="fragment"><p><strong>Encabezado</strong>: delimitado por <code>---</code>, contiene instrucciones en formato YAML</p></li>
+<li class="fragment"><p><strong>Piezas (chunks) de código R</strong>: delimitados con <code>```</code></p></li>
+<li class="fragment"><p>Texto llano precedido por un encabezado delimitado por <code>##</code></p></li>
+</ul></li>
+<li class="fragment"><p>Esta es la estructura básica de un código fuente en un documento de Quarto.</p></li>
+<li class="fragment"><p>Tenemos entonces, dos opciones para trabajar en Quarto:</p>
+<ul>
+<li class="fragment"><p>Trabajar directamente en el código fuente.</p></li>
+<li class="fragment"><p>Trabajar con el editor Visual de RStudio sobre documentos de Quarto.</p></li>
+</ul></li>
+<li class="fragment"><p>Esta última opción es la recomendada para principiantes ya que es más intuitiva por su parecido con software de edición de texto (Word).</p></li>
+</ul>
+</div>
+</section>
+<section id="partes-básicas-de-un-documento-de-quarto-1" class="slide level2 smaller" data-visibility="uncounted">
+<h2>Partes básicas de un documento de Quarto</h2>
+<p>Para ello, copia el siguiente ejemplo de los “tamaños de diamante” del libro <a href="https://r4ds.hadley.nz/quarto.html#quarto-basics" target="blank_">“R for Data Science”</a> de Hadley Wickham y cópialo sobre el archivo que generamos:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>---
+title: "Diamond sizes"
+date: 2022-09-12
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: report
+  docx: default
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+library(tidyverse)
+
+smaller &lt;- diamonds |&gt; 
+  filter(carat &lt;= 2.5)
+```
+
+We have data about `r nrow(diamonds)` diamonds.
+Only `r nrow(diamonds) - nrow(smaller)` are larger than 2.5 carats.
+The distribution of the remainder is shown below:
+
+```{r}
+#| label: plot-smaller-diamonds
+#| echo: false
+
+smaller |&gt; 
+  ggplot(aes(x = carat)) + 
+  geom_freqpoly(binwidth = 0.01)
+```
+
+
+```{r}
+#| echo: fenced
+#| out-width: "70%"
+#| fig-align: center
+
+smaller |&gt; 
+  ggplot(aes(y = price, x = color)) + 
+  geom_bar(stat = "identity")
+```
+
+```{r}
+#| echo: fenced
+#| tbl-cap: Una tabla con `flextable`
+library(flextable)
+
+copy_mtcars &lt;- mtcars
+copy_mtcars$brand &lt;- row.names(mtcars)
+copy_mtcars &lt;- copy_mtcars[ , c(12,1:11)]
+
+ft &lt;- flextable(copy_mtcars[1:5, ])
+ft &lt;- autofit(ft)
+ft
+```
+
+
+```{r}
+#| echo: fenced
+#| tbl-cap: Una tabla con `knitr`
+ 
+knitr::kable(mtcars[1:5, ])
+```</code></pre>
+</div>
+</div>
+</section>
+<section id="nombrando-partes-de-código" class="slide level2">
+<h2>Nombrando partes de código</h2>
+<div>
+<ul>
+<li class="fragment">Las partes de código pueden ser nombradas</li>
+</ul>
+</div>
+<div class="fragment">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1"></a><span class="in">```{r}</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="co">#| label: simple-addition</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a></span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
+</div>
+</div>
+</div>
+<div class="fragment">
+<ul>
+<li>Esto puede ser útil ya que nos permite navegar directamente hacia chunks de código específicas.</li>
+</ul>
+</div>
+</section>
+<section id="opciones-en-las-partes-de-código" class="slide level2 smaller scrollable">
+<h2>Opciones en las partes de Código</h2>
+<div>
+<ul>
+<li class="fragment"><p>El código de R que usemos para nuestros reportes tiene una variada gama de opciones, entre ellas:</p>
+<ul>
+<li class="fragment"><p><code>eval: false</code> cuando no queremos que al renderizar se ejecute el código.</p></li>
+<li class="fragment"><p><code>include: false</code> corre el código, pero no lo muestra en el documento.</p></li>
+<li class="fragment"><p><code>echo: false</code> evalua el código, y sus resultados son renderizados (ejemplo: gráficos). Pero, el código no forma parte del documento final.</p></li>
+<li class="fragment"><p><code>message: false</code> o <code>warning: false</code> evita que mensajes o advertencias de correr el código sean parte del documento.</p></li>
+<li class="fragment"><p><code>results: hide</code> oculta resultads; <code>fig-show: hide</code> oculta figuras. Estas opciones son más útiles en creación de documentos html.</p></li>
+<li class="fragment"><p><code>error: true</code> permite el terminar el renderizado del documento así se encuentren errores en el código. Es especialmente importante cuando comenzamos a crear el reporte ya que nos permite identificar fallas y corregirlas.</p></li>
+</ul></li>
+<li class="fragment"><p>Para incluir estas opciones en nuestros chunks de código, podemos hacerlo usando la sintaxis <code>#|</code> seguida de la opción:</p></li>
+</ul>
+</div>
+<div class="fragment">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1"></a><span class="in">```{r}</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="co">#| label: simple-multiplication</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="co">#| eval: false</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a></span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="dv">2</span> <span class="sc">*</span> <span class="dv">2</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section id="opciones-en-las-partes-de-código-1" class="slide level2 smaller" data-visibility="uncounted">
+<h2>Opciones en las partes de Código</h2>
+<table>
+<colgroup>
+<col style="width: 24%">
+<col style="width: 13%">
+<col style="width: 14%">
+<col style="width: 10%">
+<col style="width: 9%">
+<col style="width: 13%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Option</th>
+<th style="text-align: center;">Run code</th>
+<th style="text-align: center;">Show code</th>
+<th style="text-align: center;">Output</th>
+<th style="text-align: center;">Plots</th>
+<th style="text-align: center;">Messages</th>
+<th style="text-align: center;">Warnings</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>eval: false</code></td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+</tr>
+<tr class="even">
+<td><code>include: false</code></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+</tr>
+<tr class="odd">
+<td><code>echo: false</code></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td><code>results: hide</code></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td><code>fig-show: hide</code></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td><code>message: false</code></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td><code>warning: false</code></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">X</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="opciones-globales" class="slide level2 smaller">
+<h2>Opciones globales</h2>
+<div>
+<ul>
+<li class="fragment"><p>Son agregadas en el encabezado del script de Quarto (en lenguaje YAML).</p></li>
+<li class="fragment"><p>Vamos a ir aprendiendo algunas de ellas conforme avancemos. Por el momento, probemos si TinyTeX funciona. Para eso, vamos a cambiar en el encabezado la línea <code>format: html</code> por <code>format: pdf</code>.</p></li>
+<li class="fragment"><p>De no haber tenido problemas con la instalación de TinyTex, deberás ver que en tu directorio de trabajo se ha generado un documento pdf.</p></li>
+</ul>
+</div>
+<div class="fragment">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/pdf_quarto.png"></p>
+</figure>
+</div>
+</div>
+</section></section>
+<section>
+<section id="opciones-para-figuras" class="title-slide slide level1 center">
+<h1>Opciones para figuras</h1>
+
+</section>
+<section id="importando-figuras" class="slide level2 smaller">
+<h2>Importando figuras</h2>
+<div>
+<ul>
+<li class="fragment"><p>Podemos importar figuras de archivos externos (.png, .jpg, .pdf, etc).</p></li>
+<li class="fragment"><p>Para esto, empecemos creando una carpeta dentro de nuestro directorio de trabajo para almacenar nuestras imágenes (este paso es opcional, pero recomendado para una mejor organización de nuestros proyectos).</p></li>
+<li class="fragment"><p>Hecho esto, importamos la figura de interés con la sintaxis: <code>![Pie de figura](figura_nombre){opciones}</code></p></li>
+</ul>
+</div>
+<div class="fragment">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="sc">!</span>[Logo Universidad Central](images<span class="sc">/</span>logo.jpeg){fig<span class="sc">-</span>align<span class="ot">=</span><span class="st">"center"</span> width<span class="ot">=</span><span class="dv">15</span>%}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/logo.jpeg" style="width:15.0%"></p>
+<figcaption>Logo Universidad Central</figcaption>
+</figure>
+</div>
+</div>
+<div class="fragment">
+<ul>
+<li>Noten como en el código arriba, el nombre de nuestra figura está antecedido por <code>images/</code>.</li>
+</ul>
+</div>
+</section>
+<section id="creando-figuras-en-partes-de-código" class="slide level2 smaller">
+<h2>Creando figuras en partes de código</h2>
+<div>
+<ul>
+<li class="fragment"><p>Quarto puede renderizar figuras producidas por partes de código R dentro de un documento (como ya lo debiste notar al renderizar nuestro documento de ejemplo a formato pdf (diapositiva 14).</p></li>
+<li class="fragment"><p>Funciona sin mayores problemas para la mayoría de plots producidos tanto por gráficos de R base, <code>ggplot2</code> y otros paquetes. Aunque, con ciertas excepciones, como ya mencionamos a paquetes que dependen de <code>plotly</code> (que requieren una versión específica de <code>knitr</code>).</p></li>
+<li class="fragment"><p>Ahora, lo importante es saber cómo podemos determinar el tamaño de nuestras figuras. Para ello podemos hacer uso estas opciones en nuestros chunks de código:</p>
+<ol type="1">
+<li class="fragment"><p><code>fig-width</code>: controla el ancho de la figura.</p></li>
+<li class="fragment"><p><code>fig-height</code>: controla el alto de la figura.</p></li>
+<li class="fragment"><p><code>fig-asp</code>: controla la relación de aspecto (relación ancho por alto).</p></li>
+<li class="fragment"><p><code>out-width</code> y <code>out-height</code>: controlan el ancho y largo de la figura (en porcentaje con respecto al ancho y alto de la página del documento).</p></li>
+</ol></li>
+</ul>
+</div>
+</section>
+<section id="controlando-el-tamaño-de-una-figura" class="slide level2 smaller scrollable">
+<h2>Controlando el tamaño de una figura</h2>
+<div>
+<ul>
+<li class="fragment">El libro <a href="https://r4ds.hadley.nz/" target="blank_">“R for Data Science”</a>, nos da las siguientes recomendaciones:</li>
+</ul>
+<ol type="1">
+<li class="fragment">Fijar <code>fig-width: 6</code> (6 pulgadas) y <code>fig-asp: 0.618</code> (la proporción áurea) para todas las figuras (en el encabezado). Luego, si deseáramos cambiar una figura individual, lo hacemos ajustando <code>fig-asp</code> por chunks individuales.</li>
+</ol>
+</div>
+<div class="fragment">
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb8-1"><a href="#cb8-1"></a><span class="pp">---</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Diamond sizes"</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="fu">date</span><span class="kw">:</span><span class="at"> 2022-09-12</span></span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="fu">format</span><span class="kw">:</span><span class="at"> </span></span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="at">  </span><span class="fu">pdf</span><span class="kw">:</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a><span class="at">    </span><span class="fu">fig-width</span><span class="kw">:</span><span class="at"> </span><span class="dv">6</span></span>
+<span id="cb8-7"><a href="#cb8-7"></a><span class="at">    </span><span class="fu">fig-asp</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.618</span></span>
+<span id="cb8-8"><a href="#cb8-8"></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-fig.asp="0.3">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="co">#| fig-asp: 0.3</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a></span>
+<span id="cb9-4"><a href="#cb9-4"></a>smaller <span class="sc">|&gt;</span> </span>
+<span id="cb9-5"><a href="#cb9-5"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> price, <span class="at">x =</span> color)) <span class="sc">+</span> </span>
+<span id="cb9-6"><a href="#cb9-6"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>)</span>
+<span id="cb9-7"><a href="#cb9-7"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img data-src="index_files/figure-revealjs/unnamed-chunk-8-1.png" width="960"></p>
+</div>
+</div>
+</div>
+</section>
+<section id="controlando-el-tamaño-de-una-figura-1" class="slide level2 smaller scrollable">
+<h2>Controlando el tamaño de una figura</h2>
+<ol start="2" type="1">
+<li>Controlar el tamaño con <code>out-width</code> y definirlo a un porcentaje del ancho de la hoja del documento. Sugiere <code>out-width: "70%"</code> y <code>fig-align: center</code>. Esto de manera individual por cada figura.</li>
+</ol>
+<div class="fragment">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb10-1"><a href="#cb10-1"></a><span class="in">```{r}</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="co">#| out-width: "70%"</span></span>
+<span id="cb10-3"><a href="#cb10-3"></a><span class="co">#| fig-align: center</span></span>
+<span id="cb10-4"><a href="#cb10-4"></a></span>
+<span id="cb10-5"><a href="#cb10-5"></a>smaller <span class="sc">|&gt;</span> </span>
+<span id="cb10-6"><a href="#cb10-6"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> price, <span class="at">x =</span> color)) <span class="sc">+</span> </span>
+<span id="cb10-7"><a href="#cb10-7"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>)</span>
+<span id="cb10-8"><a href="#cb10-8"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="index_files/figure-revealjs/unnamed-chunk-9-1.png" style="width:70.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="otras-opciones-de-figuras-importantes" class="slide level2 smaller">
+<h2>Otras opciones de figuras importantes</h2>
+<ul>
+<li>Podemos añadir leyendas a nuestras figuras con la opción <code>fig-cap</code> y su ubicación con <code>fig-cap-location</code></li>
+</ul>
+<div class="fragment">
+<div class="cell fig-cap-location-bottom" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb11-1"><a href="#cb11-1"></a><span class="in">```{r}</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="co">#| out-width: "30%"</span></span>
+<span id="cb11-3"><a href="#cb11-3"></a><span class="co">#| fig-align: center</span></span>
+<span id="cb11-4"><a href="#cb11-4"></a><span class="co">#| fig-cap: Figura de precios de diamantes de acuerdo a su color</span></span>
+<span id="cb11-5"><a href="#cb11-5"></a><span class="co">#| fig-cap-location: bottom</span></span>
+<span id="cb11-6"><a href="#cb11-6"></a></span>
+<span id="cb11-7"><a href="#cb11-7"></a>smaller <span class="sc">|&gt;</span> </span>
+<span id="cb11-8"><a href="#cb11-8"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> price, <span class="at">x =</span> color)) <span class="sc">+</span> </span>
+<span id="cb11-9"><a href="#cb11-9"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>)</span>
+<span id="cb11-10"><a href="#cb11-10"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="index_files/figure-revealjs/unnamed-chunk-10-1.png" style="width:30.0%"></p>
+<figcaption>Figura de precios de diamantes de acuerdo a su color</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="otras-opciones-de-figuras-importantes-1" class="slide level2 smaller" data-visibility="uncounted">
+<h2>Otras opciones de figuras importantes</h2>
+<div>
+<ul>
+<li class="fragment"><p>Cuando nos encontramos renderizando documentos de formato pdf, las figuras producidas son de alta calidad (al ser generadas como gráficos de vectores).</p></li>
+<li class="fragment"><p>Sin embargo, si la figura es muy compleja (con cientos de miles de puntos en un gráfico de dispersión) esto provocará problemas:</p>
+<ul>
+<li class="fragment"><p>Archivos muy pesados</p></li>
+<li class="fragment"><p>Fallos de memoria, sobre todo en computadores de bajo RAM</p></li>
+<li class="fragment"><p>Mayor probabilidad de que nuestros archivos pdf se corrompan con el tiempo.</p></li>
+</ul></li>
+<li class="fragment"><p>Para evitar esto, podemos usar la opción <code>fig-format: "png"</code>. El formato de gráficos png es bastante ligero y de buena calidad.</p></li>
+</ul>
+</div>
+</section></section>
+<section>
+<section id="creando-tablas-en-quarto" class="title-slide slide level1 center">
+<h1>Creando tablas en Quarto</h1>
+
+</section>
+<section id="cómo-creamos-tablas-en-quarto" class="slide level2 smaller">
+<h2>¿Cómo creamos tablas en Quarto?</h2>
+<div>
+<ul>
+<li class="fragment"><p>Se pueden crear manualmente en el editor Visual para documentos de Quarto de RStudio.</p></li>
+<li class="fragment"><p>También a partir de chunks de código.</p></li>
+<li class="fragment"><p>Por default, Quarto imprime tablas de datos tal cual como aparecen en la consola de R.</p></li>
+</ul>
+</div>
+<div class="fragment">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb12-1"><a href="#cb12-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a>mtcars[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, ]</span>
+<span id="cb12-3"><a href="#cb12-3"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                   mpg cyl disp  hp drat    wt  qsec vs am gear carb
+Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="creando-tablas-con-knitr-en-quarto" class="slide level2 smaller">
+<h2>Creando tablas con <code>knitr</code> en Quarto</h2>
+<ul>
+<li>Otra opción, es la de usar <code>knitr</code> para darle formato a nuestras tablas</li>
+</ul>
+<div class="fragment">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb14-1"><a href="#cb14-1"></a><span class="in">```{r}</span></span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="co">#| tbl-cap: Una tabla con `knitr`</span></span>
+<span id="cb14-3"><a href="#cb14-3"></a></span>
+<span id="cb14-4"><a href="#cb14-4"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(mtcars[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, ])</span>
+<span id="cb14-5"><a href="#cb14-5"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table style="width:100%;">
+<caption>Una tabla con <code>knitr</code> </caption>
+<colgroup>
+<col style="width: 26%">
+<col style="width: 7%">
+<col style="width: 5%">
+<col style="width: 7%">
+<col style="width: 5%">
+<col style="width: 7%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 7%">
+<col style="width: 7%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">mpg</th>
+<th style="text-align: right;">cyl</th>
+<th style="text-align: right;">disp</th>
+<th style="text-align: right;">hp</th>
+<th style="text-align: right;">drat</th>
+<th style="text-align: right;">wt</th>
+<th style="text-align: right;">qsec</th>
+<th style="text-align: right;">vs</th>
+<th style="text-align: right;">am</th>
+<th style="text-align: right;">gear</th>
+<th style="text-align: right;">carb</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Mazda RX4</td>
+<td style="text-align: right;">21.0</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">160</td>
+<td style="text-align: right;">110</td>
+<td style="text-align: right;">3.90</td>
+<td style="text-align: right;">2.620</td>
+<td style="text-align: right;">16.46</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Mazda RX4 Wag</td>
+<td style="text-align: right;">21.0</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">160</td>
+<td style="text-align: right;">110</td>
+<td style="text-align: right;">3.90</td>
+<td style="text-align: right;">2.875</td>
+<td style="text-align: right;">17.02</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Datsun 710</td>
+<td style="text-align: right;">22.8</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">108</td>
+<td style="text-align: right;">93</td>
+<td style="text-align: right;">3.85</td>
+<td style="text-align: right;">2.320</td>
+<td style="text-align: right;">18.61</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Hornet 4 Drive</td>
+<td style="text-align: right;">21.4</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">258</td>
+<td style="text-align: right;">110</td>
+<td style="text-align: right;">3.08</td>
+<td style="text-align: right;">3.215</td>
+<td style="text-align: right;">19.44</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Hornet Sportabout</td>
+<td style="text-align: right;">18.7</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">360</td>
+<td style="text-align: right;">175</td>
+<td style="text-align: right;">3.15</td>
+<td style="text-align: right;">3.440</td>
+<td style="text-align: right;">17.02</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="creando-tablas-con-flextable-en-quarto" class="slide level2 smaller">
+<h2>Creando tablas con <code>flextable</code> en Quarto</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb15-1"><a href="#cb15-1"></a><span class="in">```{r}</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="co">#| tbl-cap: Una tabla con `flextable`</span></span>
+<span id="cb15-3"><a href="#cb15-3"></a><span class="fu">library</span>(flextable)</span>
+<span id="cb15-4"><a href="#cb15-4"></a></span>
+<span id="cb15-5"><a href="#cb15-5"></a>copy_mtcars <span class="ot">&lt;-</span> mtcars</span>
+<span id="cb15-6"><a href="#cb15-6"></a>copy_mtcars<span class="sc">$</span>brand <span class="ot">&lt;-</span> <span class="fu">row.names</span>(mtcars)</span>
+<span id="cb15-7"><a href="#cb15-7"></a>copy_mtcars <span class="ot">&lt;-</span> copy_mtcars[ , <span class="fu">c</span>(<span class="dv">12</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">11</span>)]</span>
+<span id="cb15-8"><a href="#cb15-8"></a></span>
+<span id="cb15-9"><a href="#cb15-9"></a>ft <span class="ot">&lt;-</span> <span class="fu">flextable</span>(copy_mtcars[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, ])</span>
+<span id="cb15-10"><a href="#cb15-10"></a>ft <span class="ot">&lt;-</span> <span class="fu">autofit</span>(ft)</span>
+<span id="cb15-11"><a href="#cb15-11"></a>ft</span>
+<span id="cb15-12"><a href="#cb15-12"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div class="tabwid"><style>.cl-7d981042{}.cl-7d8d961c{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-7d9158ce{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-7d9158d8{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-7d916e9a{width:1.534in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916ea4{width:0.583in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916ea5{width:0.472in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916ea6{width:0.565in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916eae{width:0.54in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916eaf{width:0.668in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916eb0{width:0.438in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916eb8{width:0.497in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916eb9{width:0.591in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916eba{width:0.582in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916ec2{width:1.534in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916ec3{width:0.583in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916ec4{width:0.472in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916ec5{width:0.565in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916ec6{width:0.54in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916ecc{width:0.668in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916ecd{width:0.438in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916ece{width:0.497in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916ecf{width:0.591in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916ed6{width:0.582in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916ed7{width:1.534in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916ed8{width:0.583in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916ee0{width:0.472in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916eea{width:0.565in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916eeb{width:0.54in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916eec{width:0.668in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916ef4{width:0.438in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916ef5{width:0.497in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916ef6{width:0.591in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916ef7{width:0.582in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916efe{width:1.534in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916eff{width:0.583in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916f00{width:0.472in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916f01{width:0.565in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916f08{width:0.54in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916f09{width:0.668in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916f0a{width:0.438in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916f0b{width:0.497in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916f12{width:0.591in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7d916f13{width:0.582in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-7d981042"><caption><p>Una tabla con <code>flextable</code></p></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-7d916e9a"><p class="cl-7d9158ce"><span class="cl-7d8d961c">brand</span></p></th><th class="cl-7d916ea4"><p class="cl-7d9158d8"><span class="cl-7d8d961c">mpg</span></p></th><th class="cl-7d916ea5"><p class="cl-7d9158d8"><span class="cl-7d8d961c">cyl</span></p></th><th class="cl-7d916ea6"><p class="cl-7d9158d8"><span class="cl-7d8d961c">disp</span></p></th><th class="cl-7d916eae"><p class="cl-7d9158d8"><span class="cl-7d8d961c">hp</span></p></th><th class="cl-7d916ea4"><p class="cl-7d9158d8"><span class="cl-7d8d961c">drat</span></p></th><th class="cl-7d916eaf"><p class="cl-7d9158d8"><span class="cl-7d8d961c">wt</span></p></th><th class="cl-7d916eaf"><p class="cl-7d9158d8"><span class="cl-7d8d961c">qsec</span></p></th><th class="cl-7d916eb0"><p class="cl-7d9158d8"><span class="cl-7d8d961c">vs</span></p></th><th class="cl-7d916eb8"><p class="cl-7d9158d8"><span class="cl-7d8d961c">am</span></p></th><th class="cl-7d916eb9"><p class="cl-7d9158d8"><span class="cl-7d8d961c">gear</span></p></th><th class="cl-7d916eba"><p class="cl-7d9158d8"><span class="cl-7d8d961c">carb</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-7d916ec2"><p class="cl-7d9158ce"><span class="cl-7d8d961c">Mazda RX4</span></p></td><td class="cl-7d916ec3"><p class="cl-7d9158d8"><span class="cl-7d8d961c">21.0</span></p></td><td class="cl-7d916ec4"><p class="cl-7d9158d8"><span class="cl-7d8d961c">6</span></p></td><td class="cl-7d916ec5"><p class="cl-7d9158d8"><span class="cl-7d8d961c">160</span></p></td><td class="cl-7d916ec6"><p class="cl-7d9158d8"><span class="cl-7d8d961c">110</span></p></td><td class="cl-7d916ec3"><p class="cl-7d9158d8"><span class="cl-7d8d961c">3.90</span></p></td><td class="cl-7d916ecc"><p class="cl-7d9158d8"><span class="cl-7d8d961c">2.620</span></p></td><td class="cl-7d916ecc"><p class="cl-7d9158d8"><span class="cl-7d8d961c">16.46</span></p></td><td class="cl-7d916ecd"><p class="cl-7d9158d8"><span class="cl-7d8d961c">0</span></p></td><td class="cl-7d916ece"><p class="cl-7d9158d8"><span class="cl-7d8d961c">1</span></p></td><td class="cl-7d916ecf"><p class="cl-7d9158d8"><span class="cl-7d8d961c">4</span></p></td><td class="cl-7d916ed6"><p class="cl-7d9158d8"><span class="cl-7d8d961c">4</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-7d916ed7"><p class="cl-7d9158ce"><span class="cl-7d8d961c">Mazda RX4 Wag</span></p></td><td class="cl-7d916ed8"><p class="cl-7d9158d8"><span class="cl-7d8d961c">21.0</span></p></td><td class="cl-7d916ee0"><p class="cl-7d9158d8"><span class="cl-7d8d961c">6</span></p></td><td class="cl-7d916eea"><p class="cl-7d9158d8"><span class="cl-7d8d961c">160</span></p></td><td class="cl-7d916eeb"><p class="cl-7d9158d8"><span class="cl-7d8d961c">110</span></p></td><td class="cl-7d916ed8"><p class="cl-7d9158d8"><span class="cl-7d8d961c">3.90</span></p></td><td class="cl-7d916eec"><p class="cl-7d9158d8"><span class="cl-7d8d961c">2.875</span></p></td><td class="cl-7d916eec"><p class="cl-7d9158d8"><span class="cl-7d8d961c">17.02</span></p></td><td class="cl-7d916ef4"><p class="cl-7d9158d8"><span class="cl-7d8d961c">0</span></p></td><td class="cl-7d916ef5"><p class="cl-7d9158d8"><span class="cl-7d8d961c">1</span></p></td><td class="cl-7d916ef6"><p class="cl-7d9158d8"><span class="cl-7d8d961c">4</span></p></td><td class="cl-7d916ef7"><p class="cl-7d9158d8"><span class="cl-7d8d961c">4</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-7d916ec2"><p class="cl-7d9158ce"><span class="cl-7d8d961c">Datsun 710</span></p></td><td class="cl-7d916ec3"><p class="cl-7d9158d8"><span class="cl-7d8d961c">22.8</span></p></td><td class="cl-7d916ec4"><p class="cl-7d9158d8"><span class="cl-7d8d961c">4</span></p></td><td class="cl-7d916ec5"><p class="cl-7d9158d8"><span class="cl-7d8d961c">108</span></p></td><td class="cl-7d916ec6"><p class="cl-7d9158d8"><span class="cl-7d8d961c">93</span></p></td><td class="cl-7d916ec3"><p class="cl-7d9158d8"><span class="cl-7d8d961c">3.85</span></p></td><td class="cl-7d916ecc"><p class="cl-7d9158d8"><span class="cl-7d8d961c">2.320</span></p></td><td class="cl-7d916ecc"><p class="cl-7d9158d8"><span class="cl-7d8d961c">18.61</span></p></td><td class="cl-7d916ecd"><p class="cl-7d9158d8"><span class="cl-7d8d961c">1</span></p></td><td class="cl-7d916ece"><p class="cl-7d9158d8"><span class="cl-7d8d961c">1</span></p></td><td class="cl-7d916ecf"><p class="cl-7d9158d8"><span class="cl-7d8d961c">4</span></p></td><td class="cl-7d916ed6"><p class="cl-7d9158d8"><span class="cl-7d8d961c">1</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-7d916ec2"><p class="cl-7d9158ce"><span class="cl-7d8d961c">Hornet 4 Drive</span></p></td><td class="cl-7d916ec3"><p class="cl-7d9158d8"><span class="cl-7d8d961c">21.4</span></p></td><td class="cl-7d916ec4"><p class="cl-7d9158d8"><span class="cl-7d8d961c">6</span></p></td><td class="cl-7d916ec5"><p class="cl-7d9158d8"><span class="cl-7d8d961c">258</span></p></td><td class="cl-7d916ec6"><p class="cl-7d9158d8"><span class="cl-7d8d961c">110</span></p></td><td class="cl-7d916ec3"><p class="cl-7d9158d8"><span class="cl-7d8d961c">3.08</span></p></td><td class="cl-7d916ecc"><p class="cl-7d9158d8"><span class="cl-7d8d961c">3.215</span></p></td><td class="cl-7d916ecc"><p class="cl-7d9158d8"><span class="cl-7d8d961c">19.44</span></p></td><td class="cl-7d916ecd"><p class="cl-7d9158d8"><span class="cl-7d8d961c">1</span></p></td><td class="cl-7d916ece"><p class="cl-7d9158d8"><span class="cl-7d8d961c">0</span></p></td><td class="cl-7d916ecf"><p class="cl-7d9158d8"><span class="cl-7d8d961c">3</span></p></td><td class="cl-7d916ed6"><p class="cl-7d9158d8"><span class="cl-7d8d961c">1</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-7d916efe"><p class="cl-7d9158ce"><span class="cl-7d8d961c">Hornet Sportabout</span></p></td><td class="cl-7d916eff"><p class="cl-7d9158d8"><span class="cl-7d8d961c">18.7</span></p></td><td class="cl-7d916f00"><p class="cl-7d9158d8"><span class="cl-7d8d961c">8</span></p></td><td class="cl-7d916f01"><p class="cl-7d9158d8"><span class="cl-7d8d961c">360</span></p></td><td class="cl-7d916f08"><p class="cl-7d9158d8"><span class="cl-7d8d961c">175</span></p></td><td class="cl-7d916eff"><p class="cl-7d9158d8"><span class="cl-7d8d961c">3.15</span></p></td><td class="cl-7d916f09"><p class="cl-7d9158d8"><span class="cl-7d8d961c">3.440</span></p></td><td class="cl-7d916f09"><p class="cl-7d9158d8"><span class="cl-7d8d961c">17.02</span></p></td><td class="cl-7d916f0a"><p class="cl-7d9158d8"><span class="cl-7d8d961c">0</span></p></td><td class="cl-7d916f0b"><p class="cl-7d9158d8"><span class="cl-7d8d961c">0</span></p></td><td class="cl-7d916f12"><p class="cl-7d9158d8"><span class="cl-7d8d961c">3</span></p></td><td class="cl-7d916f13"><p class="cl-7d9158d8"><span class="cl-7d8d961c">2</span></p></td></tr></tbody></table></div>
+</div>
+</div>
+</section>
+<section id="aprendiendo-quarto-en-acción" class="slide level2">
+<h2>Aprendiendo Quarto en acción</h2>
+<p>Para esta parte final, vamos a ver más opciones dentro de los documentos de Quarto a través de dos archivos de Quarto que he creado y que están ya disponibles en la sección de <a href="https://mmorenozam.github.io/progR-website/materiales.html" target="blank_">“Materiales y recursos”</a> de la página web del curso bajo la sección “Plantillas de Quarto”.</p>
 
 
 <img src="images/logo.jpeg" class="slide-logo r-stretch"><div class="footer footer-default">
@@ -571,6 +1429,44 @@ Mauricio Moreno, PhD
         ]
       });
     </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {
